@@ -4,7 +4,7 @@ import {faHome} from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-bingo-setting',
   templateUrl: './bingo-setting.component.html',
-  styleUrls: ['./bingo-setting.component.css']
+  styleUrls: ['../app.component.scss', './bingo-setting.component.scss']
 })
 export class BingoSettingComponent implements OnInit {
   faHome = faHome;
