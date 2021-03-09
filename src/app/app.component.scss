@@ -1,0 +1,44 @@
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+$color-blue: #2e366c;
+$color-green: #114b11;
+$color-purple: #75286b;
+$color-pastel-blue: #b2cefe;
+$color-pastel-green: #bbed91;
+$color-pink: #f0d0f0;
+
+$color-text-dark: #000000;
+$color-text-light: #ffffff;
+
+.container {
+  background-color: $color-blue;
+  color: $color-text-light;
+  display: flex;
+  text-align: center;
+  margin: auto;
+  font-family: Calibri, serif;
+  font-size: 1.2rem;
+}
+
+.left {
+  float: left;
+  width: 20%;
+  height: inherit;
+}
+
+.right {
+  float: right;
+  width: 20%;
+  height: inherit;
+}
+
+.center {
+  width: 60%;
+  height: inherit;
+}
