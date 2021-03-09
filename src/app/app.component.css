@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  text-align: center;
+  margin: auto;
+}
+
+.left {
+  float: left;
+  background-color: red;
+  width: 20%;
+  height: inherit;
+}
+
+.right {
+  float: right;
+  background-color: blue;
+  width: 20%;
+  height: inherit;
+}
+
+.center {
+  background-color: green;
+  width: 60%;
+  height: inherit;
+}
