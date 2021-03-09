@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="left">
+    {{drawNumber}}
+  </div>
+  <div class="center">
+    <table>
+      <thead>
+        <tr>
+          <th>B</th>
+          <th>I</th>
+          <th>N</th>
+          <th>G</th>
+          <th>O</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let bingoRow of bingoCard">
+          <td><button>{{ get(bingoRow.numbers, 0) }}</button></td>
+          <td><button>{{ get(bingoRow.numbers, 1) }}</button></td>
+          <td><button>{{ get(bingoRow.numbers, 2) }}</button></td>
+          <td><button>{{ get(bingoRow.numbers, 3) }}</button></td>
+          <td><button>{{ get(bingoRow.numbers, 4) }}</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="right" routerLink="">
+    <button>
+      <fa-icon [icon]="faHome"></fa-icon>
+    </button>
+  </div>
+</div>
