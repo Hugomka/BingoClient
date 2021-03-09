@@ -1,35 +1,36 @@
-<div class="header container">
+<div class="header container no-select">
   <div class="ball" (click)="drawNumber()">
     <div class="ball-circle"></div>
-    <div class="ball-center">{{drawnNumber}}</div>
+    <div class="ball-center"></div>
     <div class="ball-glow"></div>
+    <p class="center">{{drawnNumber}}</p>
   </div>
   <div class="center">
     <div *ngIf="paused;then pausing else running"></div>
     <ng-template #pausing>
     <div class="draw-process">
-      Aantal deelnemers: {{participantsCounter}}
-      <fa-icon [icon]="faPlay"><progress></progress></fa-icon>
-      Gepauzeerd...
+      <p>Aantal deelnemers: {{participantsCounter}}</p>
+      <fa-icon (click)="startTimer()" [icon]="faPlay" size="2x"></fa-icon><progress max="15" value="{{timerCounter}}"></progress>
+      <p>Gepauzeerd...</p>
     </div>
     </ng-template>
     <ng-template #running>
       <div class="draw-process">
-        Aantal deelnemers: {{participantsCounter}}
-        <fa-icon [icon]="faPause"><progress></progress></fa-icon>
-        Volgende trekking in {{timerCounter}}
+        <p>Aantal deelnemers: {{participantsCounter}}</p>
+        <p><fa-icon (click)="pauseTimer()" [icon]="faPause" size="2x"></fa-icon><progress max="15" value="{{timerCounter}}"></progress></p>
+        <p>Volgende trekking in {{timerCounter}} seconden.</p>
       </div>
     </ng-template>
   </div>
   <div class="right">
-    <button routerLink="">
-      <fa-icon [icon]="faHome"></fa-icon>
-    </button>
+    <p>
+      <fa-icon routerLink="" [icon]="faHome" size="2x"></fa-icon>
+    </p>
   </div>
 </div>
 <div class="container">
   <div class="container-numbers">
-    <table>
+    <table class="center">
       <tbody>
         <tr *ngFor="let row of amountRows()">
           <td *ngFor="let num of fillNumbers(row)">

@@ -6,14 +6,14 @@ import {CardType} from '../enums/card-type';
 @Component({
   selector: 'app-bingo-mill',
   templateUrl: './bingo-mill.component.html',
-  styleUrls: ['./bingo-mill.component.css', '../app.component.css']
+  styleUrls: ['../app.component.scss', './bingo-mill.component.scss']
 })
 export class BingoMillComponent implements OnInit {
   faHome = faHome;
   bingoMill: BingoMill;
   participantsCounter = 0;
   timerCounter = 15;
-  paused: false;
+  paused = false;
   faPlay = faPlayCircle;
   faPause = faPauseCircle;
   drawnNumber: number;
@@ -77,5 +77,13 @@ export class BingoMillComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  startTimer(): void {
+    this.paused = false;
+  }
+
+  pauseTimer(): void {
+    this.paused = true;
   }
 }
