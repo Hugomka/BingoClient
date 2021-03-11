@@ -8,6 +8,8 @@ import { BingoMillComponent } from './bingo-mill/bingo-mill.component';
 import { BingoSettingComponent } from './bingo-setting/bingo-setting.component';
 import { BingoStartComponent } from './bingo-start/bingo-start.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BingoBallComponent } from './bingo-ball/bingo-ball.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,12 +17,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BingoCardComponent,
     BingoMillComponent,
     BingoSettingComponent,
-    BingoStartComponent
+    BingoStartComponent,
+    BingoBallComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
