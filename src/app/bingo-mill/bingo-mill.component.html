@@ -1,59 +1,51 @@
-<div class="header container no-select">
-  <div class="ball" (click)="drawNumber()">
-    <div class="ball-circle"></div>
-    <div class="ball-center"></div>
-    <div class="ball-glow"></div>
-    <p class="center">{{drawnNumber}}</p>
-  </div>
-  <div class="center">
-    <div *ngIf="paused;then pausing else running"></div>
-    <ng-template #pausing>
-    <div class="draw-process">
-      <p>Aantal deelnemers: {{participantsCounter}}</p>
-      <fa-icon (click)="startTimer()" [icon]="faPlay" size="2x"></fa-icon><progress max="15" value="{{timerCounter}}"></progress>
-      <p>Gepauzeerd...</p>
-    </div>
-    </ng-template>
-    <ng-template #running>
-      <div class="draw-process">
-        <p>Aantal deelnemers: {{participantsCounter}}</p>
-        <p><fa-icon (click)="pauseTimer()" [icon]="faPause" size="2x"></fa-icon><progress max="15" value="{{timerCounter}}"></progress></p>
-        <p>Volgende trekking in {{timerCounter}} seconden.</p>
+<div class="container no-select">
+    <app-bingo-ball></app-bingo-ball>
+    <div class="center">
+      <div *ngIf="bingoBallComponent.paused;then pausing else running"></div>
+      <ng-template #pausing>
+        <div class="draw-process">
+          <p>Aantal deelnemers: {{participantsCounter}}</p>
+          <fa-icon (click)="startTimer()" [icon]="faPlay" size="2x"></fa-icon><progress max="15" value="{{bingoBallComponent.timerCounter}}"></progress>
+          <p>Gepauzeerd...</p>
+        </div>
+      </ng-template>
+      <ng-template #running>
+        <div class="draw-process">
+          <p>Aantal deelnemers: {{participantsCounter}}</p>
+          <p><fa-icon (click)="pauseTimer()" [icon]="faPause" size="2x"></fa-icon><progress max="15" value="{{bingoBallComponent.timerCounter}}"></progress></p>
+          <p>Volgende trekking in {{bingoBallComponent.timerCounter}} seconden.</p>
+        </div>
+      </ng-template>
+      <div class="container-numbers">
+        <table class="center">
+          <tbody>
+          <tr *ngFor="let row of amountRows()">
+            <td *ngFor="let num of fillNumbers(row)">
+              <button *ngIf="num === bingoBallComponent.drawnNumber; else justDrawn" class="number-box just-drawn">{{num}}</button>
+              <ng-template #justDrawn>
+                <button *ngIf="bingoBallComponent.containNumber(num); else notDrawn" class="number-box drawn">{{num}}</button>
+              </ng-template>
+              <ng-template #notDrawn>
+                <button class="number-box">{{num}}</button>
+              </ng-template>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
-    </ng-template>
-  </div>
-  <div class="right">
-    <p>
-      <fa-icon routerLink="" [icon]="faHome" size="2x"></fa-icon>
-    </p>
-  </div>
-</div>
-<div class="container">
-  <div class="container-numbers">
-    <table class="center">
-      <tbody>
-        <tr *ngFor="let row of amountRows()">
-          <td *ngFor="let num of fillNumbers(row)">
-            <button *ngIf="num === drawnNumber; else justDrawn" class="number-box just-drawn">{{num}}</button>
-            <ng-template #justDrawn>
-              <button *ngIf="containNumber(num); else notDrawn" class="number-box drawn">{{num}}</button>
-            </ng-template>
-            <ng-template #notDrawn>
-              <button class="number-box">{{num}}</button>
-            </ng-template>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="container-winners">
-    <p>1 rij winnaar:</p>
-    <p>{{winner1}}</p>
-    <p>2 rijen winnaar:</p>
-    <p>{{winner2}}</p>
-    <p>3 rijen winnaar:</p>
-    <p>{{winner3}}</p>
-    <p>volle kaart winnaar:</p>
-    <p>{{winnerFull}}</p>
-  </div>
+    </div>
+    <div class="right">
+      <p>
+        <fa-icon routerLink="" [icon]="faHome" size="2x"></fa-icon>
+      </p>
+      <br/><br/>
+      <p>1 rij winnaar:</p>
+      <p>{{winner1}}</p>
+      <p>2 rijen winnaar:</p>
+      <p>{{winner2}}</p>
+      <p>3 rijen winnaar:</p>
+      <p>{{winner3}}</p>
+      <p>volle kaart winnaar:</p>
+      <p>{{winnerFull}}</p>
+    </div>
 </div>

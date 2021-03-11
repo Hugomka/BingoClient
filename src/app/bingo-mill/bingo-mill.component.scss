@@ -1,19 +1,8 @@
-.header {
-  float: top;
-  width: 100%;
-}
-
 .container-numbers {
   justify-content: center;
-  text-align-all: center;
+  text-align: center;
   width: 100%;
   height: inherit;
-}
-
-.container-winners {
-  float: right;
-  width: 16rem;
-  height: auto;
 }
 
 .number-box {
@@ -34,68 +23,6 @@
   color: black;
 }
 
-.ball {
-  position: relative;
-  margin: auto;
-  text-align-all: center;
-  float: left;
-  width: 6rem;
-  height: 6rem;
-  border-radius: 3rem;
-  background-color: gold;
-}
-
-.ball-glow {
-  position: absolute;
-  left: 1rem;
-  background-color: white;
-  opacity: 45%;
-  width: 4rem;
-  height: 3rem;
-  border-radius: 2rem;
-  margin: 0 auto;
-}
-
-.ball-circle {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  background-color: inherit;
-  width: 3.6rem;
-  height: 3.6rem;
-  border-radius: 2rem;
-  border: 0.2rem solid antiquewhite;
-  margin: auto;
-}
-
-.ball-center {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  background-color: antiquewhite;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 1.5rem;
-}
-
-p.center {
-  width: 6rem;
-  height: 6rem;
-  position: relative;
-  text-align: center;
-  margin-left: auto;
-  margin-top: 1.5rem;
-  color: black;
-  font-size: 2.2rem;
-}
-
-table.center {
-  margin-left: 10%;
-  margin-top: auto;
-}
-
 fa-icon {
   margin: 1rem;
 }
-
-
