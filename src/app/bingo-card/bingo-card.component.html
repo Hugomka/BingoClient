@@ -1,32 +1,74 @@
-<div class="container">
+<div class="container no-select">
   <div class="left">
-    {{drawNumber}}
+    <div class="ball-area">
+      <app-bingo-ball></app-bingo-ball>
+    </div>
+    <div *ngIf="bingoBallComponent.paused;then pausing else running"></div>
+    <ng-template #pausing>
+      <div class="draw-process">
+        <p>Gepauzeerd...</p>
+        <progress max="15" value="{{bingoBallComponent.timerCounter}}"></progress>
+      </div>
+    </ng-template>
+    <ng-template #running>
+      <div class="draw-process">
+        <p>Volgende trekking in {{bingoBallComponent.timerCounter}} sec.</p>
+        <p><progress max="15" value="{{bingoBallComponent.timerCounter}}"></progress></p>
+      </div>
+    </ng-template>
+    <div class="number-area hide-scrollbar" *ngFor="let num of bingoBallComponent.drawnNumbers.reverse() let i=index">
+      <p *ngIf="num !== bingoBallComponent.drawnNumber && i <= 15" class="circle">{{num}}</p>
+    </div>
   </div>
   <div class="center">
-    <table>
+    <table class="center">
       <thead>
         <tr>
-          <th>B</th>
-          <th>I</th>
-          <th>N</th>
-          <th>G</th>
-          <th>O</th>
+          <th class="block">B</th>
+          <th class="block">I</th>
+          <th class="block">N</th>
+          <th class="block">G</th>
+          <th class="block">O</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let bingoRow of bingoCard">
-          <td><button>{{ get(bingoRow.numbers, 0) }}</button></td>
-          <td><button>{{ get(bingoRow.numbers, 1) }}</button></td>
-          <td><button>{{ get(bingoRow.numbers, 2) }}</button></td>
-          <td><button>{{ get(bingoRow.numbers, 3) }}</button></td>
-          <td><button>{{ get(bingoRow.numbers, 4) }}</button></td>
+        <tr *ngFor="let bingoRow of bingoCard.bingoRows">
+          <td class="block" *ngFor="let num of bingoRow.numbers.split(',')">
+            <button *ngIf="!isStamped(num); else stamped" (click)="stamp(num)">{{num}}</button>
+            <ng-template #stamped >
+              <button class="stamp" (click)="stamp(num)">{{num}}</button>
+            </ng-template>
+          </td>
         </tr>
       </tbody>
     </table>
+    <div >
+      <div class="toggle" *ngIf="automatic; else manual">
+          <p class="align-left">
+          <fa-icon (click)="toggleAutomatic()" [icon]="faToggleOn" size="2x"></fa-icon>
+        </p>
+        <p class="align-right">
+          Automatisch stempelen
+        </p>
+      </div>
+      <ng-template #manual>
+        <div class="toggle">
+          <p class="align-left">
+            <fa-icon (click)="toggleAutomatic()" [icon]="faToggleOff" size="2x"></fa-icon>
+          </p>
+          <p class="align-right">
+            Handmatig stempelen
+          </p>
+        </div>
+      </ng-template>
+    </div>
   </div>
-  <div class="right" routerLink="">
-    <button>
-      <fa-icon [icon]="faHome"></fa-icon>
-    </button>
+  <div class="right">
+      <div>
+        <fa-icon routerLink="" [icon]="faHome" size="2x"></fa-icon>
+      </div>
+      <div class="big-button" (click)="callBingo()" >
+        <p><fa-icon [icon]="faBullhorn" size="2x"></fa-icon> BINGO</p>
+      </div>
   </div>
 </div>

@@ -1,0 +1,95 @@
+th.block {
+  width: 4rem;
+  height: 2rem;
+  font-size: 2rem;
+  font-family: Impact, serif;
+}
+
+td.block {
+  width: 3rem;
+  height: 3rem;
+  background-color: white;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  width: inherit;
+  height: inherit;
+  margin: 3px;
+}
+
+button.stamp {
+  border-radius: 2rem;
+  background-color: #FE8585;
+  opacity: 50%;
+  margin: 3px;
+}
+
+.toggle {
+  display: table;
+  margin: auto;
+  max-width: 15rem;
+}
+
+.align-left {
+  display: table-cell;
+  float: left;
+}
+
+.align-right {
+  display: table-cell;
+  float: right;
+  line-height: 2rem;
+}
+
+.big-button {
+  background-color: green;
+  color: white;
+  text-align: center;
+  margin: 3rem auto auto auto;
+  padding-top: 0.1rem;
+  width: 6rem;
+  height: 5.9rem;
+  border-radius: 1rem;
+}
+
+.ball-area {
+  width: 6rem;
+  height: 6rem;
+}
+
+.number-area {
+  display: inline;
+  text-align: left;
+  width: 6.4rem;
+  max-height: 14.6rem;
+  overflow-scrolling: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.number-area.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.number-area.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.draw-process {
+  font-size: 0.5rem;
+}
+
+.circle {
+  display: inline-block;
+  background-color: gold;
+  color: black;
+  text-align: center;
+  border-radius: 1rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  line-height: 2rem;
+  margin: 2px;
+}
