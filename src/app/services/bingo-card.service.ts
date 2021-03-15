@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {BingoCard} from '../interfaces/bingo-card';
 import {HttpClient} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {MockBingoCard} from '../mock-bingo-card';
+import {BingoService} from './bingo.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BingoCardService {
+export class BingoCardService extends BingoService {
 
-  private rootUrl = '/api/bingoCard';
+  private rootUrl = `${this.URL}/bingoCard`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   create(): Observable<BingoCard> {
     const url = `${this.rootUrl}/create`;
@@ -23,7 +26,7 @@ export class BingoCardService {
 
   update(bingoCard: BingoCard): Observable<BingoCard> {
     const url = `${this.rootUrl}/update`;
-    return this.http.post<BingoCard>(url, bingoCard).pipe(
+    return this.http.patch<BingoCard>(url, bingoCard).pipe(
       catchError(this.handleError<BingoCard>('updateBingoCard'))
     );
   }
@@ -49,12 +52,7 @@ export class BingoCardService {
     );
   }
 
-  private handleError<T>(operation = 'operation', result?: T): (error: any) => Observable<T> {
-    return (error: any): Observable<T> => {
-      console.error(`${operation}: ${error}`);
-      return of(result as T);
-    };
-  }
+
 
   callBingo(bingoCard: BingoCard): Observable<boolean> {
     const url = `${this.rootUrl}/${bingoCard.id}?callBingo`;
