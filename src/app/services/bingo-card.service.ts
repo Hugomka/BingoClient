@@ -3,8 +3,8 @@ import {Observable} from 'rxjs';
 import {BingoCard} from '../interfaces/bingo-card';
 import {HttpClient} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
-import {MockBingoCard} from '../mock-bingo-card';
 import {BingoService} from './bingo.service';
+import {Mockup} from '../mock-bingo-card';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,7 @@ import {BingoService} from './bingo.service';
 export class BingoCardService extends BingoService {
 
   private rootUrl = `${this.URL}/bingoCard`;
+  private mockup: Mockup = new Mockup();
 
   constructor(private http: HttpClient) {
     super();
@@ -20,7 +21,7 @@ export class BingoCardService extends BingoService {
   create(): Observable<BingoCard> {
     const url = `${this.rootUrl}/create`;
     return this.http.get<BingoCard>(url).pipe(
-      catchError(this.handleError<BingoCard>('createBingoCard', MockBingoCard))
+      catchError(this.handleError<BingoCard>('createBingoCard', this.mockup.mockBingoCard))
     );
   }
 
@@ -51,8 +52,6 @@ export class BingoCardService extends BingoService {
       catchError(this.handleError<boolean>(`deleteBingoCard id=${id}`, false))
     );
   }
-
-
 
   callBingo(bingoCard: BingoCard): Observable<boolean> {
     const url = `${this.rootUrl}/${bingoCard.id}?callBingo`;

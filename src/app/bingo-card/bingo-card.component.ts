@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MockBingoCard} from '../mock-bingo-card';
 import {faHome, faToggleOn, faToggleOff, faBullhorn} from '@fortawesome/free-solid-svg-icons';
 import {BingoCardService} from '../services/bingo-card.service';
 import {BingoBallComponent} from '../bingo-ball/bingo-ball.component';
+import {BingoCard} from '../interfaces/bingo-card';
 
 @Component({
   selector: 'app-bingo-card',
@@ -11,7 +11,7 @@ import {BingoBallComponent} from '../bingo-ball/bingo-ball.component';
 })
 export class BingoCardComponent implements OnInit {
 
-  bingoCard = MockBingoCard;
+  bingoCard: BingoCard = {id: '', bingoUser: {id: '', username: '', backgroundColor: ''}, bingoRows: []};
   drawNumber = '';
   faHome = faHome;
   faToggleOn = faToggleOn;
@@ -27,9 +27,7 @@ export class BingoCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.bingoCard === MockBingoCard) {
-      this.bingoCardService.create().subscribe(bingoCard => this.bingoCard = bingoCard);
-    }
+    this.bingoCardService.create().subscribe(bingoCard => this.bingoCard = bingoCard);
   }
 
   stamp(num: string): void {
