@@ -1,0 +1,14 @@
+<div [ngClass]="isShow ? 'window-show' : 'window-hide'" class="background no-select">
+  <div class="window">
+    <fa-icon (click)="hide()" [icon]="faTimes" class="close-button"></fa-icon>
+    <p>{{content}}</p>
+    <div *ngIf="needInput; else noInput">
+      <label>
+        <input id="inputText" type="text" (keyup)="onKey($event)" />
+      </label>
+    </div>
+    <ng-template #noInput></ng-template>
+    <button (click)="submit()" class="ok">OK</button>
+  </div>
+  <div (click)="hide()" class="outsideWindow"></div>
+</div>

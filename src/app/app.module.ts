@@ -10,6 +10,7 @@ import { BingoStartComponent } from './bingo-start/bingo-start.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BingoBallComponent } from './bingo-ball/bingo-ball.component';
 import {HttpClientModule} from '@angular/common/http';
+import {BingoWindowComponent} from './bingo-window/bingo-window.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {HttpClientModule} from '@angular/common/http';
     BingoMillComponent,
     BingoSettingComponent,
     BingoStartComponent,
-    BingoBallComponent
+    BingoBallComponent,
+    BingoWindowComponent
   ],
   imports: [
     BrowserModule,
