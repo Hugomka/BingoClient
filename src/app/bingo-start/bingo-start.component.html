@@ -1,8 +1,15 @@
-<div class="container">
+<div class="container blue no-select">
   <div class="left"></div>
-  <div class="center" routerLink="play"><button>Deelnemen</button></div>
+  <div class="center" (click)="participate()">
+    <img class="img-border" src="../../assets/images/bingo-card.png" height="300" width="260" alt="Deelnemen"/>
+    <p>Deelnemen</p>
+  </div>
   <div class="right">
-    <div routerLink="setting"><button>Instellingen</button></div>
-    <div routerLink="lead"><button>Spelleider</button></div>
+    <div routerLink="setting"><fa-icon [icon]="faBars" size="2x"></fa-icon></div>
+    <div class="bingo-mill" routerLink="lead">
+      <img src="../../assets/images/bingo-mill.png" height="100" width="100" alt="Spelleider"/>
+      <p>Spelleider</p>
+    </div>
   </div>
 </div>
+<app-bingo-window (onWindowClose)="windowClosed($event[0], $event[1])"></app-bingo-window>
