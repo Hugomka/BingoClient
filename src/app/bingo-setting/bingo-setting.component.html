@@ -1,7 +1,35 @@
-<p>bingo-setting works!</p>
-
-<div routerLink="">
-  <button>
-    <fa-icon [icon]="faHome"></fa-icon>
-  </button>
+<div class="container blue no-select">
+  <div class="left center">
+    <h3>Instellingen</h3>
+    <p>Achtergrondkleur</p>
+    <div class="inline">
+      <input name="background" type="radio" class="colorbox blue" checked/>
+      <input name="background" type="radio" class="colorbox green" />
+      <input name="background" type="radio" class="colorbox purple" />
+      <input name="background" type="radio" class="colorbox pastel-blue" />
+      <input name="background" type="radio" class="colorbox pastel-green" />
+      <input name="background" type="radio" class="colorbox pink" />
+    </div>
+    <p>Trekkingsnummers</p>
+    min: <input class="input-number rounded" type="number" value="0" max="90"/> max: <input class="input-number rounded" type="number" value="75" max="100"/>
+    <p>Kaarttype</p>
+    <div class="radio-options">
+      <input id="option1" name="card-type" type="radio" class="no-circle" checked />
+      <label for="option1" class="radio-left">Standaard</label>
+      <input id="option2" name="card-type" type="radio" class="no-circle" />
+      <label for="option2">Willekeurig</label>
+      <input id="option3" name="card-type" type="radio" class="no-circle" />
+      <label for="option3" class="radio-right">Speciaal</label>
+    </div>
+    <p>Gebruikersnaam</p>
+    <input class="input-username rounded" type="text" />
+  </div>
+  <div class="right">
+    <div>
+        <fa-icon routerLink="" [icon]="faHome" size="2x"></fa-icon>
+    </div>
+    <div class="big-button" (click)="return()" >
+      <fa-icon [icon]="faReturn" size="2x" flip="horizontal"></fa-icon> OPSLAAN EN TERUG
+    </div>
+  </div>
 </div>

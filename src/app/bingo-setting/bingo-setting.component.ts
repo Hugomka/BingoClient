@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {faHome} from '@fortawesome/free-solid-svg-icons';
+import { faHome, faShare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-bingo-setting',
@@ -8,9 +8,12 @@ import {faHome} from '@fortawesome/free-solid-svg-icons';
 })
 export class BingoSettingComponent implements OnInit {
   faHome = faHome;
+  faReturn = faShare;
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  return(): void {
+  }
 }
