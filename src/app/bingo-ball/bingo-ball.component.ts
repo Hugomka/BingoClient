@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-bingo-ball',
   templateUrl: './bingo-ball.component.html',
-  styleUrls: ['./bingo-ball.component.scss']
+  styleUrls: ['../app.component.scss', './bingo-ball.component.scss']
 })
 export class BingoBallComponent implements OnInit {
   drawnNumber: number;
@@ -21,7 +21,7 @@ export class BingoBallComponent implements OnInit {
 
   drawNumber(): void {
     const min = this.minimumNumber;
-    const max = this.maximumNumber + 1;
+    const max = this.maximumNumber;
     let justDraw;
     while (true) {
       justDraw = Math.floor(Math.random() * max + min);

@@ -36,7 +36,7 @@ export class BingoStartComponent implements OnInit, AfterContentInit {
     else if (event !== 'close') {
       // todo: fix exception for failed creating user
       if (event === 'submit') {
-        const newBingoUser = { backgroundColor: '#2e366c', username: inputValue };
+        const newBingoUser = { id: '', backgroundColor: '#2e366c', username: inputValue };
         this.route.navigate(['/play']).then(() => {
           this.bingoUserService.create(newBingoUser).subscribe(value => this.bingoUser = value, error => this.bingoUser = null);
           if (this.bingoUser !== null) {
