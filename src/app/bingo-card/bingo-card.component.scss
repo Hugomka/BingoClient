@@ -29,45 +29,42 @@ button.stamp {
 .toggle {
   display: table;
   margin: auto;
-  max-width: 15rem;
+  max-width: 16rem;
 }
 
 .align-left {
   display: table-cell;
   float: left;
+  margin: 0.5rem;
 }
 
 .align-right {
   display: table-cell;
   float: right;
-  line-height: 2rem;
+  line-height: 1rem;
+  min-width: 12rem;
 }
 
 .big-button {
   background-color: green;
   color: white;
   text-align: center;
-  margin: 3rem auto auto auto;
-  padding-top: 0.1rem;
+  line-height: 2rem;
+  margin: 5rem auto auto auto;
+  padding: 1.5rem 0.5rem 0.5rem 0.5rem;
   width: 6rem;
-  height: 5.9rem;
-  border-radius: 1rem;
+  height: 5rem;
+  border-radius: 0.5rem;
 }
 
 .ball-area {
+  margin: auto;
   width: 6rem;
   height: 6rem;
 }
 
 .number-area {
   display: inline;
-  text-align: left;
-  width: 6.4rem;
-  max-height: 14.6rem;
-  overflow-scrolling: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .number-area.hide-scrollbar {
