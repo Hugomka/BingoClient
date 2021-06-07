@@ -39,14 +39,7 @@ jobs:
       # the current branch
       - run:
           name: Building
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                npm run build-qa
-            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                npm run build-prod
-            else
-                npm run build-dev
-            fi
+          command: npm run build
       # Cache the dist folder for the deploy job
       - save_cache:
           key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
@@ -79,14 +72,8 @@ jobs:
       # Deploy to the S3 bucket corresponding to the current branch
       - run:
           name: Deploy to S3
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                aws --region eu-west-2 s3 sync dist s3://project-dev/ --delete
-            elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                aws --region eu-west-2 s3 sync dist s3://project-qa/ --delete
-            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                aws --region eu-west-2 s3 sync dist s3://project/ --delete
-            fi
+          command: aws --region eu-west-2 s3 sync dist s3://project/ --delete
+
 workflows:
   version: 2
   # The build and deploy workflow
