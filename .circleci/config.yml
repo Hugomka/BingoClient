@@ -46,20 +46,20 @@ jobs:
           paths:
             - dist
 
-#  # The deploy job
-#  deploy:
-#    working_directory: ~/project
-#    docker:
-#      - image: circleci/node:14.17.0-browsers
-#    steps:
-#      # Log the current branch
-#      - run:
-#          name: Show current branch
-#          command: echo ${CIRCLE_BRANCH}
-#      # Restore cache from the build job which contains the
-#      # dist folder that needs to be deployed
-#      - restore_cache:
-#          key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+  # The deploy job
+  deploy:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:14.17.0-browsers
+    steps:
+      # Log the current branch
+      - run:
+          name: Show current branch
+          command: echo ${CIRCLE_BRANCH}
+      # Restore cache from the build job which contains the
+      # dist folder that needs to be deployed
+      - restore_cache:
+          key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
 #      # Install AWS cli
 #      - run:
 #          name: Install aws cli
