@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BingoMillComponent } from './bingo-mill/bingo-mill.component';
 import { BingoSettingComponent } from './bingo-setting/bingo-setting.component';
 import { BingoStartComponent } from './bingo-start/bingo-start.component';
-import {FaIconComponent, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BingoBallComponent } from './bingo-ball/bingo-ball.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BingoWindowComponent} from './bingo-window/bingo-window.component';
@@ -21,13 +21,12 @@ import {BingoWindowComponent} from './bingo-window/bingo-window.component';
     BingoStartComponent,
     BingoBallComponent,
     BingoWindowComponent,
-    FaIconComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

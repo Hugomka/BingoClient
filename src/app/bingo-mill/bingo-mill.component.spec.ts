@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BingoMillComponent } from './bingo-mill.component';
-import {FaIconComponent, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from '../app-routing.module';
 import { BingoBallComponent } from '../bingo-ball/bingo-ball.component';
 
@@ -11,7 +11,7 @@ describe('BingoMillComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BingoMillComponent, BingoBallComponent, FaIconComponent ],
+      declarations: [ BingoMillComponent, BingoBallComponent ],
       imports: [ AppRoutingModule, FontAwesomeModule ]
     })
     .compileComponents();

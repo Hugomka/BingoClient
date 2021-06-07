@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BingoCardComponent } from './bingo-card.component';
-import {FaIconComponent, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BingoBallComponent } from '../bingo-ball/bingo-ball.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
@@ -11,7 +11,7 @@ describe('BingoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BingoCardComponent, BingoBallComponent, FaIconComponent ],
+      declarations: [ BingoCardComponent, BingoBallComponent ],
       imports: [ HttpClientTestingModule, FontAwesomeModule ]
     })
     .compileComponents();
