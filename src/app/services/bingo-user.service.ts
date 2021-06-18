@@ -29,4 +29,11 @@ export class BingoUserService extends BingoService {
       catchError(this.handleError<BingoUser>(`getBingoUser id=${id}`))
     );
   }
+
+  update(bingoUser: BingoUser): Observable<BingoUser> {
+    const url = `${this.rootUrl}/update`;
+    return this.http.patch<BingoUser>(url, bingoUser).pipe(
+      catchError(this.handleError<BingoUser>('updateBingoUser'))
+    );
+  }
 }

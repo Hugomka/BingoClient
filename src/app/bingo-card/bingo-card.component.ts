@@ -10,7 +10,6 @@ import {BingoCard} from '../interfaces/bingo-card';
   styleUrls: ['../app.component.scss', './bingo-card.component.scss']
 })
 export class BingoCardComponent implements OnInit {
-
   bingoCard: BingoCard = {id: '', bingoUser: {id: '', username: '', backgroundColor: ''}, bingoRows: []};
   drawNumber = '';
   faHome = faHome;
@@ -27,7 +26,6 @@ export class BingoCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bingoCardService.create().subscribe(bingoCard => this.bingoCard = bingoCard);
   }
 
   stamp(num: string): void {

@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {BingoService} from './bingo.service';
 import {Mockup} from '../mock-bingo-card';
+import {BingoUser} from '../interfaces/bingo-user';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,10 @@ export class BingoCardService extends BingoService {
     super();
   }
 
-  create(): Observable<BingoCard> {
+  create(bingoUser: BingoUser): Observable<BingoCard> {
     const url = `${this.rootUrl}/create`;
-    return this.http.get<BingoCard>(url).pipe(
+    const bingoCard: BingoCard = { id: '', bingoUser, bingoRows: null };
+    return this.http.post<BingoCard>(url, bingoCard).pipe(
       catchError(this.handleError<BingoCard>('createBingoCard', this.mockup.mockBingoCard))
     );
   }

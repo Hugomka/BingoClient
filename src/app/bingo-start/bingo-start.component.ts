@@ -4,6 +4,7 @@ import {BingoUser} from '../interfaces/bingo-user';
 import {BingoWindowComponent} from '../bingo-window/bingo-window.component';
 import {Router} from '@angular/router';
 import {BingoUserService} from '../services/bingo-user.service';
+import {BingoCardService} from '../services/bingo-card.service';
 
 @Component({
   selector: 'app-bingo-start',
@@ -16,10 +17,27 @@ export class BingoStartComponent implements OnInit, AfterContentInit {
   @ViewChild(BingoWindowComponent)
   bingoWindow: BingoWindowComponent = new BingoWindowComponent();
 
-  constructor(private route: Router, private bingoUserService: BingoUserService) {
+  constructor(private route: Router, private bingoUserService: BingoUserService, private bingoCardService: BingoCardService) {
   }
 
   ngOnInit(): void {
+    this.bingoUser = {
+      id: localStorage.getItem('userid'),
+      username: localStorage.getItem('username'),
+      backgroundColor: localStorage.getItem('backgroundColor')
+    };
+    console.log(`The user ID is ${this.bingoUser.id} from localStorage in bingo-start component on init.`);
+    if (this.bingoUser.id !== '') {
+      this.bingoUserService.get(this.bingoUser.id).subscribe(
+        value => {
+          this.bingoUser = value;
+        },
+        error => {
+          this.bingoUser = null;
+          console.log(error.message);
+        }
+      );
+    }
   }
 
   ngAfterContentInit(): void {
@@ -32,19 +50,23 @@ export class BingoStartComponent implements OnInit, AfterContentInit {
   windowClosed(event: string, inputValue: string): void {
     if (inputValue === '') {
       this.participate();
-    }
-    else if (event !== 'close') {
-      // todo: fix exception for failed creating user
+    } else if (event !== 'close') {
       if (event === 'submit') {
-        const newBingoUser = { id: '', backgroundColor: '#2e366c', username: inputValue };
+        const newBingoUser = {id: '', backgroundColor: '#2e366c', username: inputValue};
         this.route.navigate(['/play']).then(() => {
-          this.bingoUserService.create(newBingoUser).subscribe(value => this.bingoUser = value, error => this.bingoUser = null);
-          if (this.bingoUser !== null) {
-            console.log(`User with name ${inputValue} is created`);
-          }
-          else {
-            console.log(`Error: User is not created.`);
-          }
+          this.bingoCardService.create(newBingoUser).subscribe(
+            value => {
+              localStorage.clear();
+              console.log(`Created new user with username: ${value.bingoUser.username} from bingo-start component.`);
+              localStorage.setItem('userid', value.bingoUser.id);
+              localStorage.setItem('username', value.bingoUser.username);
+              localStorage.setItem('backgroundColor', value.bingoUser.backgroundColor);
+              this.bingoUser = value.bingoUser;
+            },
+            error => {
+              this.bingoUser = null;
+              console.log(error.message);
+            });
         });
       }
     }
