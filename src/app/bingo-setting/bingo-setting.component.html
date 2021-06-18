@@ -1,14 +1,14 @@
-<div class="container blue no-select">
+<div class="container no-select" >
   <div class="left center">
     <h3>Instellingen</h3>
     <p>Achtergrondkleur</p>
     <div class="inline">
-      <input name="background" type="radio" class="colorbox blue" checked/>
-      <input name="background" type="radio" class="colorbox green" />
-      <input name="background" type="radio" class="colorbox purple" />
-      <input name="background" type="radio" class="colorbox pastel-blue" />
-      <input name="background" type="radio" class="colorbox pastel-green" />
-      <input name="background" type="radio" class="colorbox pink" />
+      <input name="background" type="radio" class="colorbox blue" value="#2e366c" [name]="bingoUser.backgroundColor"/>
+      <input name="background" type="radio" class="colorbox green" value="#114b11" [name]="bingoUser.backgroundColor"/>
+      <input name="background" type="radio" class="colorbox purple" value="#75286b" [name]="bingoUser.backgroundColor"/>
+      <input name="background" type="radio" class="colorbox pastel-blue" value="#b2cefe" [name]="bingoUser.backgroundColor"/>
+      <input name="background" type="radio" class="colorbox pastel-green" value="#bbed91" [name]="bingoUser.backgroundColor"/>
+      <input name="background" type="radio" class="colorbox pink" value="#f0d0f0" [name]="bingoUser.backgroundColor"/>
     </div>
     <p>Trekkingsnummers</p>
     min: <input class="input-number rounded" type="number" value="0" max="90"/> max: <input class="input-number rounded" type="number" value="75" max="100"/>
@@ -22,13 +22,13 @@
       <label for="option3" class="radio-right">Speciaal</label>
     </div>
     <p>Gebruikersnaam</p>
-    <input class="input-username rounded" type="text" />
+    <input class="input-username rounded" type="text" [value]="bingoUser.username" />
   </div>
   <div class="right">
     <div>
         <fa-icon routerLink="" [icon]="faHome" size="2x"></fa-icon>
     </div>
-    <div class="big-button" (click)="return()" >
+    <div class="big-button" (click)="saveAndReturn()" >
       <fa-icon [icon]="faReturn" size="2x" flip="horizontal"></fa-icon> OPSLAAN EN TERUG
     </div>
   </div>
