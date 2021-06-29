@@ -1,8 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {faHome, faPauseCircle, faPlayCircle} from '@fortawesome/free-solid-svg-icons';
-import {BingoMill} from '../interfaces/bingo-mill';
 import {BingoBallComponent} from '../bingo-ball/bingo-ball.component';
-import {CardType} from '../enums/card-type';
 
 @Component({
   selector: 'app-bingo-mill',
@@ -11,7 +9,6 @@ import {CardType} from '../enums/card-type';
 })
 export class BingoMillComponent implements OnInit {
   faHome = faHome;
-  bingoMill: BingoMill;
   participantsCounter = 0;
   faPlay = faPlayCircle;
   faPause = faPauseCircle;
@@ -24,19 +21,13 @@ export class BingoMillComponent implements OnInit {
   bingoBallComponent: BingoBallComponent = new BingoBallComponent();
 
   constructor() {
-    this.bingoMill = {
-      cardType: CardType.default,
-      maximumNumber: 75,
-      minimumNumber: 1
-    };
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   fillNumbers(rowIndex: number): number[] {
-    const min = this.bingoMill.minimumNumber;
-    const max = this.bingoMill.maximumNumber + 1;
+    const min = this.bingoBallComponent.bingoMill.minimumNumber;
+    const max = this.bingoBallComponent.bingoMill.maximumNumber + 1;
     const from = rowIndex * 10 + min;
     const to = from + 10;
     if (max > to) {
@@ -47,8 +38,8 @@ export class BingoMillComponent implements OnInit {
   }
 
   amountRows(): number[] {
-    const min = this.bingoMill.minimumNumber;
-    const max = this.bingoMill.maximumNumber + 1;
+    const min = this.bingoBallComponent.bingoMill.minimumNumber;
+    const max = this.bingoBallComponent.bingoMill.maximumNumber + 1;
     let rows = Math.floor((max - min) / 10);
     if ((max - min) % 10 > 0) {
       rows += 1;
@@ -57,10 +48,12 @@ export class BingoMillComponent implements OnInit {
   }
 
   startTimer(): void {
-    this.bingoBallComponent.paused = false;
+    this.bingoBallComponent.pause(false);
+    console.log('Game continued');
   }
 
   pauseTimer(): void {
-    this.bingoBallComponent.paused = true;
+    this.bingoBallComponent.pause(true);
+    console.log('Game paused');
   }
 }

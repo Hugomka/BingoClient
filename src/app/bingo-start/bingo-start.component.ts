@@ -1,10 +1,12 @@
-import {Component, OnInit, ViewChild, AfterContentInit} from '@angular/core';
+import {AfterContentInit, Component, OnInit, ViewChild} from '@angular/core';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {BingoUser} from '../interfaces/bingo-user';
 import {BingoWindowComponent} from '../bingo-window/bingo-window.component';
 import {Router} from '@angular/router';
 import {BingoUserService} from '../services/bingo-user.service';
-import {BingoCardService} from '../services/bingo-card.service';
+import {BingoMillService} from '../services/bingo-mill.service';
+import {BingoMill} from '../interfaces/bingo-mill';
+import {BingoCardType} from '../enums/bingo-card-type';
 
 @Component({
   selector: 'app-bingo-start',
@@ -14,60 +16,55 @@ import {BingoCardService} from '../services/bingo-card.service';
 export class BingoStartComponent implements OnInit, AfterContentInit {
   faBars = faBars;
   bingoUser: BingoUser;
+  bingoMill: BingoMill;
   @ViewChild(BingoWindowComponent)
   bingoWindow: BingoWindowComponent = new BingoWindowComponent();
 
-  constructor(private route: Router, private bingoUserService: BingoUserService, private bingoCardService: BingoCardService) {
+  constructor(private route: Router, private bingoUserService: BingoUserService, private bingoMillService: BingoMillService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.bingoUser = {
-      id: localStorage.getItem('userid'),
+      id: localStorage.getItem('userId'),
       username: localStorage.getItem('username'),
       backgroundColor: localStorage.getItem('backgroundColor')
     };
-    console.log(`The user ID is ${this.bingoUser.id} from localStorage in bingo-start component on init.`);
-    if (this.bingoUser.id !== '') {
-      this.bingoUserService.get(this.bingoUser.id).subscribe(
-        value => {
-          this.bingoUser = value;
-        },
-        error => {
-          this.bingoUser = null;
-          console.log(error.message);
-        }
-      );
+    console.log(`The bingo user ID is ${this.bingoUser.id} from localStorage in bingo-start component on init.`);
+    if (localStorage.getItem('millId') === null) {
+      const newMill: BingoMill = {id: '', bingoCardType: BingoCardType.normal, drawNumbers: '', minimumNumber: 1, maximumNumber: 75};
+      this.bingoMill = await this.bingoMillService.open(newMill).toPromise();
+      localStorage.setItem('millId', this.bingoMill.id);
     }
+    else {
+      this.bingoMill = await this.bingoMillService.get(localStorage.getItem('millId')).toPromise();
+    }
+    console.log(`The bingo mill ID is ${this.bingoMill.id} from localStorage in bingo-start component on init.`);
   }
 
   ngAfterContentInit(): void {
   }
 
   participate(): void {
-    this.bingoWindow.showWindow('Beste deelnemer, kun je hier je naam invullen?', true, 'ask-username');
+    if (this.bingoUser.id === null) {
+      this.bingoWindow.showWindow('Beste deelnemer, kun je hier je naam invullen?', true, 'ask-username');
+    } else {
+      this.route.navigate(['/play']).then();
+    }
   }
 
-  windowClosed(event: string, inputValue: string): void {
+  async windowClosed(event: string, inputValue: string): Promise<void> {
     if (inputValue === '') {
       this.participate();
     } else if (event !== 'close') {
       if (event === 'submit') {
-        const newBingoUser = {id: '', backgroundColor: '#2e366c', username: inputValue};
-        this.route.navigate(['/play']).then(() => {
-          this.bingoCardService.create(newBingoUser).subscribe(
-            value => {
-              localStorage.clear();
-              console.log(`Created new user with username: ${value.bingoUser.username} from bingo-start component.`);
-              localStorage.setItem('userid', value.bingoUser.id);
-              localStorage.setItem('username', value.bingoUser.username);
-              localStorage.setItem('backgroundColor', value.bingoUser.backgroundColor);
-              this.bingoUser = value.bingoUser;
-            },
-            error => {
-              this.bingoUser = null;
-              console.log(error.message);
-            });
-        });
+        let newBingoUser: BingoUser = {id: '', backgroundColor: '#2e366c', username: inputValue};
+        newBingoUser = await this.bingoUserService.create(newBingoUser).toPromise();
+        await localStorage.clear();
+        console.log(`Created new user with username: ${newBingoUser.username} from bingo-start component.`);
+        await localStorage.setItem('userId', newBingoUser.id);
+        await localStorage.setItem('username', newBingoUser.username);
+        await localStorage.setItem('backgroundColor', newBingoUser.backgroundColor);
+        this.route.navigate(['/play']).then();
       }
     }
   }

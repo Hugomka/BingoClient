@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BingoMill} from '../interfaces/bingo-mill';
-import {Observable} from 'rxjs';
 import {BingoService} from './bingo.service';
 import {catchError} from 'rxjs/operators';
 
@@ -16,9 +15,9 @@ export class BingoMillService extends BingoService {
     super();
   }
 
-  open(): Observable<BingoMill> {
+  open(bingoMill: BingoMill): Observable<BingoMill> {
     const url = `${this.rootUrl}/open`;
-    return this.http.get<BingoMill>(url).pipe(
+    return this.http.post<BingoMill>(url, bingoMill).pipe(
       catchError(this.handleError<BingoMill>('openBingoMill'))
     );
   }
@@ -41,6 +40,20 @@ export class BingoMillService extends BingoService {
     const url = `${this.rootUrl}/${id}`;
     return this.http.delete<boolean>(url).pipe(
       catchError(this.handleError<boolean>('closeBingoMill', false))
+    );
+  }
+
+  drawNumber(bingoMill: BingoMill ): Observable<number> {
+    const url = `${this.rootUrl}/${bingoMill.id}/draw`;
+    return this.http.get<number>(url).pipe(
+      catchError(this.handleError<number>('drawNumberBingoMill', 0))
+    );
+  }
+
+  pause(bingoMill: BingoMill, pause): void {
+    const url = `${this.rootUrl}/${bingoMill.id}?pause=${pause}`;
+    this.http.get<BingoMill>(url).pipe(
+      catchError(this.handleError('pauseBingo'))
     );
   }
 }

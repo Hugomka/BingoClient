@@ -1,7 +1,7 @@
 <div class="container blue no-select">
   <div class="left">
     <div class="ball-area">
-      <app-bingo-ball></app-bingo-ball>
+      <app-bingo-ball (click)="autoStamp()"></app-bingo-ball>
     </div>
     <div *ngIf="bingoBallComponent.paused;then pausing else running"></div>
     <ng-template #pausing>

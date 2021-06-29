@@ -29,9 +29,9 @@ export class BingoSettingComponent implements OnInit, AfterViewInit {
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = this.bingoUser.backgroundColor;
   }
 
-  saveAndReturn(): void {
-    localStorage.setItem('username', this.bingoUser.username);
-    localStorage.setItem('backgroundColor', this.bingoUser.backgroundColor);
+  async saveAndReturn(): Promise<void> {
+    await localStorage.setItem('username', this.bingoUser.username);
+    await localStorage.setItem('backgroundColor', this.bingoUser.backgroundColor);
     this.router.navigate(['']).then(() => {
       this.bingoSettingService.update(this.bingoUser);
       window.location.reload();

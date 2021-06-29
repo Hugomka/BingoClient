@@ -3,6 +3,7 @@ import {faHome, faToggleOn, faToggleOff, faBullhorn} from '@fortawesome/free-sol
 import {BingoCardService} from '../services/bingo-card.service';
 import {BingoBallComponent} from '../bingo-ball/bingo-ball.component';
 import {BingoCard} from '../interfaces/bingo-card';
+import {BingoUser} from '../interfaces/bingo-user';
 
 @Component({
   selector: 'app-bingo-card',
@@ -10,7 +11,7 @@ import {BingoCard} from '../interfaces/bingo-card';
   styleUrls: ['../app.component.scss', './bingo-card.component.scss']
 })
 export class BingoCardComponent implements OnInit {
-  bingoCard: BingoCard = {id: '', bingoUser: {id: '', username: '', backgroundColor: ''}, bingoRows: []};
+  bingoCard: BingoCard;
   drawNumber = '';
   faHome = faHome;
   faToggleOn = faToggleOn;
@@ -25,7 +26,22 @@ export class BingoCardComponent implements OnInit {
   constructor(private bingoCardService: BingoCardService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    const bingoUser: BingoUser = {
+      id: localStorage.getItem('userId'),
+      username: localStorage.getItem('username'),
+      backgroundColor: localStorage.getItem('backgroundColor')
+    };
+    this.bingoCard = {id: localStorage.getItem('cardId'), bingoUser, bingoRows: []};
+    if (this.bingoCard.id === undefined || this.bingoCard.id === null || this.bingoCard.id === '') {
+      this.bingoCard = await this.bingoCardService.create(bingoUser).toPromise();
+      console.log(`Creating a new bingo card with id ${this.bingoCard.id}.`);
+      await localStorage.setItem('cardId', this.bingoCard.id);
+    } else {
+      this.bingoCard = await this.bingoCardService.get(this.bingoCard.id).toPromise();
+      console.log(`Getting a existed bingo card with id ${this.bingoCard.id}.`);
+    }
+    this.autoStamp();
   }
 
   stamp(num: string): void {
@@ -54,25 +70,20 @@ export class BingoCardComponent implements OnInit {
     this.automatic = !this.automatic;
   }
 
-  callBingo(): void {
-    this.bingoCardService.callBingo(this.bingoCard).subscribe(winner => this.winner = winner);
-  }
-
-  getDrawnNumbers(): string {
-    let numbers = '';
-    const s = '&nbsp;';
-    const ds = '<div class="circle">';
-    const de = '</div>';
-    for (const num of this.bingoBallComponent.drawnNumbers) {
-      if (num !== this.bingoBallComponent.drawnNumber) {
-        if (num < 10) {
-          numbers = `${ds}${s}${num}${s} ${numbers}${de}`;
-        }
-        else {
-          numbers = `${ds}${num} ${numbers}${de}`;
-        }
+  autoStamp(): void {
+    if (this.automatic) {
+      if (this.stampedNumbers.length > 0) {
+        this.stamp(`${this.bingoBallComponent.drawnNumber}`);
+      }
+      else {
+        this.bingoBallComponent.drawnNumbers.forEach(n => {
+          this.stamp(`${n}`);
+        });
       }
     }
-    return numbers;
+  }
+
+  async callBingo(): Promise<void> {
+    this.winner = await this.bingoCardService.callBingo(this.bingoCard).toPromise();
   }
 }
