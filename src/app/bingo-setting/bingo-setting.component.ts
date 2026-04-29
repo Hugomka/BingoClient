@@ -1,10 +1,13 @@
 import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
 import { faHome, faShare } from '@fortawesome/free-solid-svg-icons';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {BingoSettingService} from '../services/bingo-setting.service';
 import {BingoUser} from '../interfaces/bingo-user';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @Component({
+  standalone: true,
+  imports: [FontAwesomeModule, RouterLink],
   selector: 'app-bingo-setting',
   templateUrl: './bingo-setting.component.html',
   styleUrls: ['../app.component.scss', './bingo-setting.component.scss']
