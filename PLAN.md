@@ -457,7 +457,7 @@ The steps below are ordered by dependency — each one can be a separate Git com
   tslib → ^2.6.0
   ```
 - [x] Run: `ng update @angular/core@18 @angular/cli@18`
-- [ ] Update `tsconfig.json`:
+- [x] Update `tsconfig.json`:
   - `"target": "ES2022"`
   - `"module": "ES2022"`
   - `"useDefineForClassFields": false`
