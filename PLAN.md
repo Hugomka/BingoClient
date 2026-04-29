@@ -448,7 +448,7 @@ The steps below are ordered by dependency — each one can be a separate Git com
 
 ### ✅ Step 1 — Upgrade to Angular 18
 
-- [ ] Update `package.json` to Angular 18 LTS:
+- [x] Update `package.json` to Angular 18 LTS:
   ```
   @angular/core, @angular/cli, @angular/compiler, etc. → ^18.0.0
   @fortawesome/angular-fontawesome → ^0.15.0
@@ -456,7 +456,7 @@ The steps below are ordered by dependency — each one can be a separate Git com
   rxjs → ^7.8.0
   tslib → ^2.6.0
   ```
-- [ ] Run: `ng update @angular/core@18 @angular/cli@18`
+- [x] Run: `ng update @angular/core@18 @angular/cli@18`
 - [ ] Update `tsconfig.json`:
   - `"target": "ES2022"`
   - `"module": "ES2022"`
