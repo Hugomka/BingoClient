@@ -448,21 +448,37 @@ The steps below are ordered by dependency — each one can be a separate Git com
 
 ### ✅ Step 1 — Upgrade to Angular 18
 
-- [x] Update `package.json` to Angular 18 LTS:
-  ```
-  @angular/core, @angular/cli, @angular/compiler, etc. → ^18.0.0
-  @fortawesome/angular-fontawesome → ^0.15.0
-  zone.js → ^0.14.0
-  rxjs → ^7.8.0
-  tslib → ^2.6.0
-  ```
+> ⚠️ **Lesson learned (see PROCESS.md):** The original plan had the order wrong.
+> Do **not** manually edit `package.json` before running `ng update`.
+> `ng update` reads the *currently installed* packages from `node_modules` and handles
+> all version bumping — including `devDependencies`, `angular.json` migrations, and
+> `tsconfig.json` migrations — automatically. Manually editing `package.json` first
+> causes a mismatch between `package.json` and `node_modules`, which makes `ng update`
+> reject the workspace as invalid.
+
+**Correct procedure (for future major version upgrades):**
+
+- [x] Ensure `node_modules` is in sync: run `npm install` if in doubt
 - [x] Run: `ng update @angular/core@18 @angular/cli@18`
+  - This automatically bumps all Angular packages in `package.json`
+  - Runs built-in schematics that update `angular.json` (removes deprecated options, switches to `application` builder)
+  - Runs built-in schematics that update `tsconfig.json`
+- [x] If `ng update` cannot run due to a broken state, fix manually (see PROCESS.md):
+  1. Update all Angular packages consistently in both `dependencies` **and** `devDependencies`
+  2. Update `typescript` to the version required by the target Angular version
+  3. Delete `node_modules` and `package-lock.json`, then run `npm install`
+  4. Manually update `tsconfig.json` and `angular.json` (see PROCESS.md for what changed)
 - [x] Update `tsconfig.json`:
   - `"target": "ES2022"`
   - `"module": "ES2022"`
   - `"useDefineForClassFields": false`
-- [ ] Update `angular.json` — remove any deprecated builder options
-- [ ] Run `ng build` and fix any reported errors before continuing
+- [x] Update `angular.json`:
+  - Switch builder from `...build-angular:browser` → `...build-angular:application`
+  - Rename `main` → `browser`, `browserTarget` → `buildTarget`
+  - Change `polyfills` from a file path to an inline array `["zone.js"]`
+  - Remove deprecated options: `aot`, `buildOptimizer`, `namedChunks`, `vendorChunk`
+  - Remove `defaultProject`, `lint` (TSLint), and `e2e` (Protractor) targets
+- [x] Run `ng build` — must complete with zero errors before continuing
 
 ---
 

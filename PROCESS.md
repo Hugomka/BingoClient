@@ -44,3 +44,43 @@ The failure was caused by two compounding problems:
 - **Prefer using `ng update` from the start** rather than manually editing `package.json`, as it handles coordinated version bumping across all Angular packages automatically.
 - **Node.js version matters:** Angular 18 officially supports Node 18.x and 20.x. The project is currently running on Node 24, which is unsupported. This has not caused issues yet but may in the future — consider pinning to Node 20 LTS via `nvm`.
 
+---
+
+## 2026-04-29 — Updating `angular.json` for Angular 18
+
+### Context
+After upgrading packages to Angular 18, `angular.json` also needed manual review and updates since `ng update` could not run the automatic migrations (due to the partial manual edit described above).
+
+### What Was Deprecated or Removed
+
+| Option / Builder | Status | Details |
+|---|---|---|
+| `defaultProject` | **Removed** | No longer a valid workspace-level extension in Angular 18 |
+| `@angular-devkit/build-angular:browser` | **Deprecated** | Replaced by the new unified `application` builder |
+| `main` (build option) | **Renamed** | → `browser` under the `application` builder |
+| `polyfills` as a file path (`"src/polyfills.ts"`) | **Changed** | Now an inline array: `["zone.js"]` — `polyfills.ts` is no longer the entry point |
+| `browserTarget` (serve/extract-i18n) | **Renamed** | → `buildTarget` |
+| `aot`, `buildOptimizer`, `namedChunks`, `vendorChunk` | **Removed** | Always on in Angular 18; no longer configurable |
+| `lint` with TSLint builder | **Removed** | TSLint is end-of-life; migrate to ESLint separately |
+| `e2e` with Protractor builder | **Removed** | Protractor is end-of-life; no direct replacement in-scope |
+
+### Changes Made
+
+1. Removed `defaultProject` from the workspace root.
+2. Switched build `builder` from `...build-angular:browser` → `...build-angular:application`.
+3. Renamed `main` → `browser` in build options.
+4. Changed `polyfills` in both `build` and `test` targets from a file path to an inline array (`["zone.js"]` / `["zone.js", "zone.js/testing"]`).
+5. Renamed all `browserTarget` occurrences to `buildTarget` in `serve` and `extract-i18n`.
+6. Removed deprecated scalar options (`aot`, `buildOptimizer`, `namedChunks`, `vendorChunk`).
+7. Removed the `lint` (TSLint) and `e2e` (Protractor) architect targets entirely.
+
+### Result
+`ng build` completed successfully with no warnings or errors, producing a clean bundle under `dist/BingoClient`.
+
+### Lessons Learned
+
+- **`ng update` would have done this automatically.** All of these `angular.json` migrations are scripted in Angular's update schematics. Manually editing `package.json` before running `ng update` meant those schematics never ran, so the config had to be fixed by hand.
+- **The `application` builder is not a drop-in rename.** Several option names changed (`main` → `browser`, `polyfills` as array) so a simple find-and-replace of the builder name would break the build.
+- **`polyfills.ts` is now redundant.** The new `application` builder takes polyfill entry points directly in `angular.json`. The file can be kept for custom polyfills but should not be referenced as a build entry point.
+- **Always verify with `ng build` after editing `angular.json`** — the schema is validated at runtime, not at edit time, so mistakes only surface when you actually build.
+
