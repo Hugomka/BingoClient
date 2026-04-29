@@ -3,8 +3,13 @@ import {faHome, faPauseCircle, faPlayCircle} from '@fortawesome/free-solid-svg-i
 import {BingoMill} from '../interfaces/bingo-mill';
 import {BingoBallComponent} from '../bingo-ball/bingo-ball.component';
 import {CardType} from '../enums/card-type';
+import {NgIf, NgFor} from '@angular/common';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {RouterLink} from '@angular/router';
 
 @Component({
+  standalone: true,
+  imports: [NgIf, NgFor, BingoBallComponent, FontAwesomeModule, RouterLink],
   selector: 'app-bingo-mill',
   templateUrl: './bingo-mill.component.html',
   styleUrls: ['../app.component.scss', './bingo-mill.component.scss']

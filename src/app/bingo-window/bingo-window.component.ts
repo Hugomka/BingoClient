@@ -1,7 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { NgClass, NgIf } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
+  standalone: true,
+  imports: [NgClass, NgIf, FontAwesomeModule],
   selector: 'app-bingo-window',
   templateUrl: './bingo-window.component.html',
   styleUrls: ['../app.component.scss', './bingo-window.component.scss']

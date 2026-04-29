@@ -84,3 +84,72 @@ After upgrading packages to Angular 18, `angular.json` also needed manual review
 - **`polyfills.ts` is now redundant.** The new `application` builder takes polyfill entry points directly in `angular.json`. The file can be kept for custom polyfills but should not be referenced as a build entry point.
 - **Always verify with `ng build` after editing `angular.json`** — the schema is validated at runtime, not at edit time, so mistakes only surface when you actually build.
 
+---
+
+## 2026-04-29 — Step 2: Migrating to Standalone Architecture
+
+### Context
+With all components already marked `standalone: true`, the next step was to remove `AppModule`
+and `AppRoutingModule`, wire up the app without them, and give each component its own `imports`.
+
+### What Was Done
+
+#### 1. Created `src/app/app.routes.ts`
+Extracted the routes from `AppRoutingModule` into a plain routes array:
+```typescript
+export const routes: Routes = [
+  { path: '',        component: BingoStartComponent },
+  { path: 'play',    component: BingoCardComponent },
+  { path: 'lead',    component: BingoMillComponent },
+  { path: 'setting', component: BingoSettingComponent }
+];
+```
+
+#### 2. Rewrote `src/main.ts`
+Replaced the old `platformBrowserDynamic().bootstrapModule(AppModule)` with the standalone bootstrap:
+```typescript
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+  ]
+});
+```
+This is where `HttpClientModule` and `RouterModule.forRoot()` now live — as functional providers
+at the application level, not inside a module.
+
+#### 3. Added `imports: []` to every component
+Each component now explicitly declares only what its own template uses:
+
+| Component | Imports |
+|---|---|
+| `AppComponent` | `RouterOutlet` |
+| `BingoBallComponent` | *(none — template is plain HTML)* |
+| `BingoWindowComponent` | `NgClass`, `NgIf`, `FontAwesomeModule` |
+| `BingoStartComponent` | `RouterLink`, `FontAwesomeModule`, `BingoWindowComponent` |
+| `BingoCardComponent` | `NgIf`, `NgFor`, `BingoBallComponent`, `FontAwesomeModule`, `RouterLink` |
+| `BingoMillComponent` | `NgIf`, `NgFor`, `BingoBallComponent`, `FontAwesomeModule`, `RouterLink` |
+| `BingoSettingComponent` | `FontAwesomeModule`, `RouterLink` |
+
+#### 4. Deleted `app.module.ts` and `app-routing.module.ts`
+Both files are now fully replaced and were removed from the project.
+
+### Result
+`ng build` completed with zero errors. Bundle size dropped from **349 kB → 331 kB** immediately,
+because tree-shaking can now precisely eliminate unused Angular features per component.
+
+### Lessons Learned
+
+- **Read the templates before adding imports.** The required imports for a component are determined
+  by what directives, pipes, and child components its *template* uses — not what its TypeScript class imports.
+  A good checklist: `*ngIf`/`*ngFor` → `NgIf`/`NgFor`; `[ngClass]` → `NgClass`; `routerLink` → `RouterLink`;
+  `<router-outlet>` → `RouterOutlet`; `<app-*>` → import that component directly; `<fa-icon>` → `FontAwesomeModule`.
+- **`HttpClientModule` moves to `provideHttpClient()` in `main.ts`.** It is no longer imported inside
+  a component or module — it is registered once as an application-level provider.
+- **`RouterModule.forRoot()` moves to `provideRouter(routes)` in `main.ts`.** Same principle.
+- **Child components must be imported directly.** In the module world, declaring a component in `AppModule`
+  made it available everywhere. In standalone, if component A uses `<app-b>` in its template,
+  A must import B explicitly in its own `imports: []`.
+- **The bundle gets smaller right away.** Even before any lazy loading is added, tree-shaking benefits
+  are visible because the compiler now knows the exact dependency graph per component.
+

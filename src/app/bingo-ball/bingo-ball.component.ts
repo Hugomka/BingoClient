@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  standalone: true,
+  imports: [],
   selector: 'app-bingo-ball',
   templateUrl: './bingo-ball.component.html',
   styleUrls: ['../app.component.scss', './bingo-ball.component.scss']

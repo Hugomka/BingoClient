@@ -410,7 +410,6 @@ Create `src/app/shared/username-dialog/username-dialog.component.ts`:
     <input [formControl]="nameControl" (keyup.enter)="submit()" />
     <button (click)="submit()">OK</button>
     <button (click)="dialogRef.close()">Annuleren</button>
-  `
 })
 export class UsernameDialogComponent {
   nameControl = new FormControl('', Validators.required);
@@ -486,14 +485,14 @@ The steps below are ordered by dependency — each one can be a separate Git com
 
 > Angular 18 strongly prefers standalone components. This step should be completed fully before adding new features.
 
-- [ ] Add `standalone: true` to every existing component's `@Component` decorator
-- [ ] Move shared imports into each component's own `imports: []` array:
+- [x] Add `standalone: true` to every existing component's `@Component` decorator
+- [x] Move shared imports into each component's own `imports: []` array:
   - `RouterModule` / `RouterLink` / `RouterOutlet`
   - `CommonModule` (or individual `NgIf`, `NgFor`)
   - `FontAwesomeModule`
   - `ReactiveFormsModule` / `FormsModule` where needed
-- [ ] Create `src/app/app.routes.ts` (see §5 for content)
-- [ ] Rewrite `src/main.ts`:
+- [x] Create `src/app/app.routes.ts` (see §5 for content)
+- [x] Rewrite `src/main.ts`:
   ```typescript
   import { bootstrapApplication } from '@angular/platform-browser';
   import { provideRouter } from '@angular/router';
@@ -508,9 +507,9 @@ The steps below are ordered by dependency — each one can be a separate Git com
     ]
   });
   ```
-- [ ] Delete `app.module.ts` and `app-routing.module.ts`
-- [ ] Run `ng build` — must compile without errors
-- [ ] Manually verify all four routes still work
+- [x] Delete `app.module.ts` and `app-routing.module.ts`
+- [x] Run `ng build` — must compile without errors
+- [x] Manually verify all four routes still work
 
 ---
 

@@ -3,8 +3,13 @@ import {faHome, faToggleOn, faToggleOff, faBullhorn} from '@fortawesome/free-sol
 import {BingoCardService} from '../services/bingo-card.service';
 import {BingoBallComponent} from '../bingo-ball/bingo-ball.component';
 import {BingoCard} from '../interfaces/bingo-card';
+import {NgIf, NgFor} from '@angular/common';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {RouterLink} from '@angular/router';
 
 @Component({
+  standalone: true,
+  imports: [NgIf, NgFor, BingoBallComponent, FontAwesomeModule, RouterLink],
   selector: 'app-bingo-card',
   templateUrl: './bingo-card.component.html',
   styleUrls: ['../app.component.scss', './bingo-card.component.scss']

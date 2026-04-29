@@ -2,11 +2,14 @@ import {Component, OnInit, ViewChild, AfterContentInit} from '@angular/core';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 import {BingoUser} from '../interfaces/bingo-user';
 import {BingoWindowComponent} from '../bingo-window/bingo-window.component';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {BingoUserService} from '../services/bingo-user.service';
 import {BingoCardService} from '../services/bingo-card.service';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @Component({
+  standalone: true,
+  imports: [RouterLink, FontAwesomeModule, BingoWindowComponent],
   selector: 'app-bingo-start',
   templateUrl: './bingo-start.component.html',
   styleUrls: ['../app.component.scss', './bingo-start.component.scss']
