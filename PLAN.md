@@ -515,7 +515,7 @@ The steps below are ordered by dependency — each one can be a separate Git com
 
 ### ✅ Step 3 — Environment & Base Service
 
-- [ ] Update `src/environments/environment.ts`:
+- [x] Update `src/environments/environment.ts`:
   ```typescript
   export const environment = {
     production: false,
@@ -523,13 +523,13 @@ The steps below are ordered by dependency — each one can be a separate Git com
     pollIntervalMs: 5000
   };
   ```
-- [ ] Update `src/environments/environment.prod.ts` with `production: true` and the production URL
-- [ ] Update `bingo.service.ts`:
+- [x] Update `src/environments/environment.prod.ts` with `production: true` and the production URL
+- [x] Update `bingo.service.ts`:
   ```typescript
   import { environment } from '../../environments/environment';
   protected URL = environment.apiUrl;
   ```
-- [ ] Improve `handleError` to log `HttpErrorResponse` status and message instead of the raw error object
+- [x] Improve `handleError` to log `HttpErrorResponse` status and message instead of the raw error object
 
 ---
 
