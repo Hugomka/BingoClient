@@ -535,19 +535,111 @@ The steps below are ordered by dependency — each one can be a separate Git com
 
 ### ✅ Step 4 — JWT Authentication
 
-- [ ] Create `src/app/interfaces/auth.ts` (see §3)
-- [ ] Create `src/app/auth/auth.service.ts` (see §7)
-- [ ] Create `src/app/auth/auth.interceptor.ts` (see §7)
-- [ ] Create `src/app/auth/auth.guard.ts` (see §7)
-- [ ] Create `src/app/auth/login/login.component.ts` + `.html`
+- [x] Create `src/app/interfaces/auth.ts` (see §3)
+- [x] Create `src/app/auth/auth.service.ts` (see §7)
+- [x] Create `src/app/auth/auth.interceptor.ts` (see §7)
+- [x] Create `src/app/auth/auth.guard.ts` (see §7)
+- [x] Create `src/app/auth/login/login.component.ts` + `.html`
   - Reactive form: `username` + `password` fields
   - Call `AuthService.login()` on submit
   - Show inline error message on failure
-- [ ] Add `/login` route to `app.routes.ts`
-- [ ] Add `AuthGuard` to all protected routes
-- [ ] Register `authInterceptor` in `main.ts` with `provideHttpClient(withInterceptors([authInterceptor]))`
-- [ ] **Stub test:** verify that navigating to `/` without a token redirects to `/login`
-- [ ] **Stub test:** verify that after `stubLogin()` all routes are reachable
+  - **NEW:** Stub buttons only visible in **development mode** (`environment.enableStubLogin` flag)
+- [x] Add `/login` route to `app.routes.ts`
+- [x] Add `AuthGuard` to all protected routes
+- [x] Register `authInterceptor` in `main.ts` with `provideHttpClient(withInterceptors([authInterceptor]))`
+- [x] Add `enableStubLogin: boolean` to `environment.ts` (true) and `environment.prod.ts` (false)
+- [x] **Stub test:** verify that navigating to `/` without a token redirects to `/login`
+- [x] **Stub test:** verify that after `stubLogin()` all routes are reachable
+- [x] **Production safety:** verify that stub buttons **do not appear** in production build (`ng build --configuration production`)
+
+---
+
+### 🔄 Step 4.1 — User Registration (UI Ready, Backend Pending)
+
+**Context:** The registration UI has been implemented and is ready. It currently shows a message
+that the registration endpoint is not yet available. Once BingoServer implements `/auth/register`,
+the frontend will work without any changes.
+
+#### What has been completed ✅
+
+- [x] Create `src/app/auth/register/register.component.ts` with reactive form
+  - Reactive form: username, password, passwordConfirm
+  - Cross-field validator: passwords must match
+  - Call placeholder for `AuthService.register()` (awaiting endpoint)
+  - Navigate to login on success
+  - Show inline error messages
+- [x] Create `src/app/auth/register/register.component.html`
+  - Form with 3 fields (username, password, confirm password)
+  - "Registreren" submit button
+  - "Terug naar inloggen" link to `/login`
+  - Error display for validation and registration failures
+  - Stub test buttons (development mode only)
+- [x] Create `src/app/auth/register/register.component.scss`
+  - Consistent styling with login component
+- [x] Update `login.component.html` with link to registration
+- [x] Update `login.component.ts` with `RouterLink` import
+- [x] Add `/register` route to `app.routes.ts`
+
+#### Registration Flow (Player perspective)
+
+```
+Login page
+  ├─ Has credentials? → Click "Inloggen"
+  └─ No account yet?  → Click "Geen account? Registreer hier"
+       └─ Go to /register → Registration form
+            └─ Fill in: username, password, password confirmation
+                 └─ POST /auth/register → BingoServer creates account
+                      ├─ Success: Auto-login, redirect to /
+                      └─ Error: Show validation errors
+```
+
+#### TODO: Uncomment when BingoServer is ready
+
+In `register.component.ts`, uncomment the code in `onSubmit()`.
+Update `auth.service.ts` with `register()` method.
+
+---
+
+### 🔧 Step 4.2 — BingoStartComponent Enhancements (UI Improvements)
+
+- [x] Replace hamburger icon (faBars) with settings gear icon (faCog)
+- [x] Add logout button with sign-out icon (faSignOut) in top-right
+- [x] Update styling for icon buttons with hover effects
+- [x] Implement `logout()` method that calls `AuthService.logout()`
+- [x] Fix localStorage key from `'userid'` → `'userId'` (consistency with auth service)
+- [x] Update SCSS with `.top-buttons`, `.icon-button` styles
+
+### 🔧 Step 4.3 — Global Development Mode Status Banner
+
+- [x] Create app-level status banner visible on **ALL pages** (login, register, home, etc.)
+- [x] Show clear indicator when in **offline (development) mode** with red background
+  - Displays: "🔴 OFFLINE - Development Mode (Stub Login Enabled)"
+  - Shows pulsing indicator dot
+- [x] Show clear indicator when in **online (development) mode** with green background
+  - Displays: "🟢 ONLINE - Development Mode"  
+  - Shows pulsing indicator dot
+- [x] **No status banner shown in production** (`environment.production = true`)
+- [x] Update `AppComponent`:
+  - Import `CommonModule` and `environment`
+  - Add properties: `isDevelopment`, `isOfflineMode`
+  - Display conditional banner in template
+- [x] Update `app.component.scss` with banner styling
+- [x] Remove offline button from BingoStartComponent (status banner replaces it)
+
+### 🔧 Step 4.4 — Settings Page UX Modernization
+
+- [x] Center settings content in a modern card layout (instead of left-side alignment)
+- [x] Improve readability on dark backgrounds via high-contrast card + typography
+- [x] Replace legacy controls with modern UI patterns:
+  - Color swatches with selected state
+  - Segmented card-type buttons
+  - Rounded, consistent input styling
+- [x] Move home icon to top-right of settings header for intuitive navigation
+- [x] Align home icon interaction with start page icon behavior:
+  - Hover scale (`1.1`)
+  - Active press scale (`0.95`)
+  - Subtle opacity feedback
+- [x] Keep bottom action focused on primary save flow (`OPSLAAN EN TERUG`)
 
 ---
 
@@ -649,13 +741,31 @@ The steps below are ordered by dependency — each one can be a separate Git com
 
 All endpoints from §4 — copy that table into the BingoServer design document.
 
-### Auth endpoint (new — does not exist yet)
+### Auth endpoints
 
+#### Login
 ```
 POST /api/auth/login
 Request:  { "username": "string", "password": "string" }
 Response: { "token": "JWT string", "userId": "UUID string" }
 ```
+
+#### Registration (NEW — for future)
+```
+POST /api/auth/register
+Request:  { "username": "string", "password": "string", "passwordConfirm": "string" }
+Response: { "token": "JWT string", "userId": "UUID string" }
+```
+
+**Validation rules:**
+- Username must be unique across the system
+- Username minimum 2 characters
+- Password minimum 6 characters (or per security policy)
+- Passwords field and passwordConfirm field must match
+- On success: return JWT token + userId (auto-login after registration)
+- On error: return appropriate HTTP status codes:
+  - 400: username already exists, passwords don't match, validation failed
+  - 422: unprocessable entity (business rule violation)
 
 The JWT should contain at minimum: `userId`, `username`, issued-at, expiry.
 
@@ -692,4 +802,3 @@ The interface definitions in §3 will serve as the shared DTO contract across al
 ---
 
 *End of PLAN.md*
-

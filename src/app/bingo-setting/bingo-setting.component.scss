@@ -1,119 +1,157 @@
-.left {
-  text-align: left !important;
+.setting-page {
+  align-items: center;
+  justify-content: center;
 }
 
-.inline {
-  display: inline;
+.settings-card {
+  width: 100%;
+  max-width: 760px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1f2447;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  text-align: left;
 }
 
-.colorbox {
-  display: inline-block;
-  border: 3px solid white;
-  border-radius: 0.5rem;
-  width: 3rem;
-  height: 3rem;
-  margin: 3px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+h2 {
+  margin: 0;
+  text-align: left;
+  font-size: 2rem;
+  color: #2e366c;
 }
 
-.colorbox:checked {
-  border: 3px solid yellow;
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
 }
 
-.colorbox.blue {
-  background-color: #2e366c;
+.settings-section {
+  margin-bottom: 1.4rem;
 }
 
-.colorbox.green {
-  background-color: #114b11;
+.section-title {
+  margin: 0 0 0.6rem;
+  font-weight: 700;
+  color: #2e366c;
 }
 
-.colorbox.purple {
-  background-color: #75286b;
+.color-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
-.colorbox.pastel-blue {
-  background-color: #b2cefe;
+.color-swatch {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.6rem;
+  border: 2px solid #d4d8f1;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.colorbox.pastel-green {
-  background-color: #bbed91;
+.color-swatch:hover {
+  transform: translateY(-1px);
 }
 
-.colorbox.pink {
-  background-color: #f0d0f0;
+.color-swatch.selected {
+  border-color: #2e366c;
+  box-shadow: 0 0 0 2px rgba(46, 54, 108, 0.2);
 }
 
-input.rounded {
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
+.number-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.radio-options {
-  position: relative;
-  display: inline-block;
+.card-type-options {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.radio-options input[type=radio] {
-  opacity: 0;
-  position: fixed;
-  width: 0;
+.card-type-options button {
+  border: 1px solid #b7bfd9;
+  background: #ffffff;
+  color: #2e366c;
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
-.radio-options label {
-  display: inline-block;
-  text-align: center;
-  background-color: white;
-  color: black;
-  border: grey solid 1px;
-  width: 7rem;
-  height: 1.5rem;
-}
-
-.radio-options input[type=radio]:checked + label {
-  background-color: yellow;
-}
-
-.radio-left {
-  border-radius: 1rem 0 0 1rem;
-}
-
-.radio-right {
-  border-radius: 0 1rem 1rem 0;
+.card-type-options button.active {
+  background: #2e366c;
+  border-color: #2e366c;
+  color: #ffffff;
 }
 
 .input-number {
+  border: 1px solid #b7bfd9;
+  border-radius: 10px;
+  height: 2.2rem;
+  padding: 0 0.7rem;
+  font-size: 1rem;
+  color: #1f2447;
+  width: 5rem;
   text-align: center;
-  margin-right: 3rem;
-  padding-right: 0.2rem;
-  width: 4rem;
-  height: 1.5rem;
 }
 
 .input-username {
-  padding-left: 0.5rem;
-  width: 20rem;
-  height: 1.5rem;
+  border: 1px solid #b7bfd9;
+  border-radius: 10px;
+  height: 2.2rem;
+  padding: 0 0.7rem;
+  font-size: 1rem;
+  color: #1f2447;
+  width: min(100%, 28rem);
 }
 
-p {
-  margin-bottom: 0.2rem;
+.actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.8rem;
 }
 
-h3 {
-  margin-top: 0;
+.icon-action {
+  color: #2e366c;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10px;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
-.big-button {
-  background-color: green;
-  color: white;
-  padding: 0.5rem;
-  text-align: center;
-  margin: 5rem auto auto auto;
-  width: 6rem;
-  height: 6rem;
-  border-radius: 0.5rem;
+.icon-action:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.icon-action:active {
+  transform: scale(0.95);
+}
+
+.save-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: #2e366c;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-button:hover {
+  background-color: #1f2447;
 }

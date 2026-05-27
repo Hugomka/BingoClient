@@ -178,5 +178,72 @@ because tree-shaking can now precisely eliminate unused Angular features per com
   `environment.prod.ts`, production code will get `undefined` for that field at runtime — no compile
   error, just a silent bug.
 - **`HttpErrorResponse` gives structured error info.** Logging `error.status` and `error.message`
-  from an `HttpErrorResponse` is far more useful in the console than `[object Object]`.
+   from an `HttpErrorResponse` is far more useful in the console than `[object Object]`.
 
+---
+
+## 2026-05-27 — Step 4: JWT Authentication Complete & Git Fix
+
+### Context
+Step 4 (JWT Authentication) was completed — all auth-related files were created and integrated into the app.
+
+### What Happened
+A commit was made automatically during the implementation phase. This created a problem for local synchronization:
+- Changes had been committed to the branch
+- Local uncommitted changes needed to be preserved
+
+### Fix Applied
+Used `git reset --soft HEAD~1` to undo the most recent commit while keeping all the changes staged.
+This allowed proper synchronization of the working directory without losing any implementation work.
+
+### Additional Maintenance
+The `.angular/` directory (Angular build cache) was added to `.gitignore` to prevent build artifacts 
+from being tracked. This folder is generated locally during builds and should never be committed.
+
+### Result
+- ✅ Step 4 (JWT Authentication) is fully complete and all checkboxes are marked done in PLAN.md
+- ✅ Git state is clean and in sync with local changes
+- ✅ `.angular/` is now ignored in version control
+
+---
+
+## 2026-05-27 — Settings UI Modernization & Navigation Polish
+
+### Context
+After improving auth screens and global layout, the settings page still felt visually outdated
+and had weaker usability patterns (low-contrast feel on dark context, left-leaning layout,
+and home icon placement not aligned with user expectation).
+
+### What Was Done
+
+1. **Modernized `BingoSettingComponent` layout**
+   - Replaced old left-aligned structure with a centered card layout.
+   - Added clearer sections and spacing for better readability.
+   - Standardized controls (swatches, segmented options, rounded inputs).
+
+2. **Improved visual contrast and consistency**
+   - High-contrast settings card on top of dark app background.
+   - Updated button and input styling to match the rest of the refreshed UI.
+
+3. **Moved Home icon to top-right**
+   - Relocated home navigation icon from bottom action area to settings header.
+   - This better matches common UX expectations for quick navigation.
+
+4. **Aligned icon interaction behavior with Start page**
+   - Added hover/active feedback to settings home icon:
+     - hover scale: `1.1`
+     - active press scale: `0.95`
+     - subtle opacity change
+
+5. **Updated documentation**
+   - Added `Step 4.4 — Settings Page UX Modernization` to `PLAN.md`.
+
+### Verification
+- Ran `ng build` after the styling/layout updates.
+- Build completed successfully and generated output in `dist/BingoClient`.
+
+### Lessons Learned
+- **Placement beats discoverability:** users strongly expect navigation affordances (like home)
+  in predictable positions (top-right in this flow).
+- **Micro-interactions matter:** consistent hover/press feedback across pages creates perceived quality.
+- **Card-based composition improves readability** in dark-themed apps by reducing large low-contrast surfaces.
