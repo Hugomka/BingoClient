@@ -9,12 +9,13 @@ $color-text-dark: #000000;
 $color-text-light: #ffffff;
 
 .container {
-  min-width: 640px;
-  min-height: 410px;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   text-align: center;
-  margin: auto;
+  margin: 0;
   padding: 1rem;
+  box-sizing: border-box;
   font-family: Calibri, serif;
   font-size: 1.2rem;
 }
@@ -91,4 +92,62 @@ tr {
 button {
   font-family: inherit;
   font-size: 1.5rem;
+}
+
+/* Status Banner for Development Mode */
+.status-banner {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-family: Calibri, serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+
+  &.offline {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  &.online {
+    background-color: #28a745;
+    color: white;
+  }
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+
+  &.offline {
+    background-color: white;
+  }
+
+  &.online {
+    background-color: white;
+  }
+}
+
+.status-text {
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }

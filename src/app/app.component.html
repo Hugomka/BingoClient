@@ -1,1 +1,13 @@
+<!-- Development Mode Status Banner -->
+<div class="status-banner" *ngIf="isDevelopment">
+  <div class="status-bar" [class.offline]="isOfflineMode" [class.online]="!isOfflineMode">
+    <span class="status-indicator" [class.offline]="isOfflineMode" [class.online]="!isOfflineMode"></span>
+    <span class="status-text">
+      {{ isOfflineMode ? '🔴 OFFLINE - Development Mode (Stub Login Enabled)' : '🟢 ONLINE - Development Mode' }}
+    </span>
+  </div>
+</div>
+
 <router-outlet></router-outlet>
+
+

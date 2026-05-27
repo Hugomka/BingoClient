@@ -53,8 +53,13 @@
       </button>
     </form>
 
-    <!-- Stub login buttons for offline development -->
-    <div class="stub-section">
+    <!-- Links -->
+    <div class="auth-links">
+      <p>Geen account? <a routerLink="/register">Registreer hier</a></p>
+    </div>
+
+    <!-- Stub login buttons for offline development (only shown in development mode) -->
+    <div class="stub-section" *ngIf="showStubLogin">
       <p><small>Voor offline testen (tot BingoServer klaar is):</small></p>
       <div class="stub-buttons">
         <button class="btn btn-secondary" (click)="stubLogin('TestSpeler1')">
@@ -62,6 +67,9 @@
         </button>
         <button class="btn btn-secondary" (click)="stubLogin('TestSpeler2')">
           Test als Speler 2
+        </button>
+        <button class="btn btn-leader" (click)="stubLogin('TestSpelleider')">
+          Test als Spelleider
         </button>
       </div>
     </div>

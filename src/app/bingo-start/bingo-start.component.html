@@ -5,7 +5,17 @@
     <p>Deelnemen</p>
   </div>
   <div class="right">
-    <div routerLink="setting"><fa-icon [icon]="faBars" size="2x"></fa-icon></div>
+    <!-- Settings button (gear icon) -->
+    <div class="top-buttons">
+      <div routerLink="setting" class="icon-button" title="Instellingen">
+        <fa-icon [icon]="faCog" size="2x"></fa-icon>
+      </div>
+      <!-- Logout button -->
+      <div class="icon-button" (click)="logout()" title="Uitloggen">
+        <fa-icon [icon]="faSignOut" size="2x"></fa-icon>
+      </div>
+    </div>
+    <!-- Game leader section -->
     <div class="bingo-mill" routerLink="lead">
       <img src="../../assets/images/bingo-mill.png" height="100" width="100" alt="Spelleider"/>
       <p>Spelleider</p>

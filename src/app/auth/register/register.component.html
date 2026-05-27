@@ -1,0 +1,100 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Registreren</h1>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Username field -->
+      <div class="form-group">
+        <label for="username">Gebruikersnaam</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          placeholder="Voer een gebruikersnaam in"
+          class="form-control"
+          [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+        />
+        <small *ngIf="registerForm.get('username')?.hasError('required') && registerForm.get('username')?.touched" class="error">
+          Gebruikersnaam is vereist
+        </small>
+        <small *ngIf="registerForm.get('username')?.hasError('minlength') && registerForm.get('username')?.touched" class="error">
+          Gebruikersnaam moet minstens 2 karakters bevatten
+        </small>
+      </div>
+
+      <!-- Password field -->
+      <div class="form-group">
+        <label for="password">Wachtwoord</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Voer een wachtwoord in"
+          class="form-control"
+          [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+        />
+        <small *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched" class="error">
+          Wachtwoord is vereist
+        </small>
+        <small *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched" class="error">
+          Wachtwoord moet minstens 6 karakters bevatten
+        </small>
+      </div>
+
+      <!-- Password confirmation field -->
+      <div class="form-group">
+        <label for="passwordConfirm">Bevestig wachtwoord</label>
+        <input
+          id="passwordConfirm"
+          type="password"
+          formControlName="passwordConfirm"
+          placeholder="Herhaal je wachtwoord"
+          class="form-control"
+          [class.is-invalid]="(registerForm.get('passwordConfirm')?.invalid && registerForm.get('passwordConfirm')?.touched) || !passwordsMatch"
+        />
+        <small *ngIf="registerForm.get('passwordConfirm')?.hasError('required') && registerForm.get('passwordConfirm')?.touched" class="error">
+          Wachtwoordbevestiging is vereist
+        </small>
+        <small *ngIf="!passwordsMatch && registerForm.get('passwordConfirm')?.touched" class="error">
+          Wachtwoorden komen niet overeen
+        </small>
+      </div>
+
+      <!-- Error message -->
+      <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Submit button -->
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="registerForm.invalid || isLoading"
+      >
+        {{ isLoading ? 'Registreren...' : 'Registreren' }}
+      </button>
+    </form>
+
+    <!-- Links -->
+    <div class="auth-links">
+      <p>Heb je al een account? <a routerLink="/login">Inloggen</a></p>
+    </div>
+
+    <!-- Stub login buttons for offline development (only shown in development mode) -->
+    <div class="stub-section" *ngIf="showStubLogin">
+      <p><small>Voor offline testen (tot BingoServer klaar is):</small></p>
+      <div class="stub-buttons">
+        <button class="btn btn-secondary" (click)="stubLogin('TestSpeler1')">
+          Test als Speler 1
+        </button>
+        <button class="btn btn-secondary" (click)="stubLogin('TestSpeler2')">
+          Test als Speler 2
+        </button>
+        <button class="btn btn-leader" (click)="stubLogin('TestSpelleider')">
+          Test als Spelleider
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

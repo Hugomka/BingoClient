@@ -1,36 +1,45 @@
 import {Component, OnInit, ViewChild, AfterContentInit} from '@angular/core';
-import {faBars} from '@fortawesome/free-solid-svg-icons';
+import {faCog, faSignOut} from '@fortawesome/free-solid-svg-icons';
 import {BingoUser} from '../interfaces/bingo-user';
 import {BingoWindowComponent} from '../bingo-window/bingo-window.component';
 import {Router, RouterLink} from '@angular/router';
 import {BingoUserService} from '../services/bingo-user.service';
 import {BingoCardService} from '../services/bingo-card.service';
+import {AuthService} from '../auth/auth.service';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {CommonModule} from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [RouterLink, FontAwesomeModule, BingoWindowComponent],
+  imports: [RouterLink, FontAwesomeModule, BingoWindowComponent, CommonModule],
   selector: 'app-bingo-start',
   templateUrl: './bingo-start.component.html',
   styleUrls: ['../app.component.scss', './bingo-start.component.scss']
 })
 export class BingoStartComponent implements OnInit, AfterContentInit {
-  faBars = faBars;
+  faCog = faCog;
+  faSignOut = faSignOut;
   bingoUser: BingoUser;
+
   @ViewChild(BingoWindowComponent)
   bingoWindow: BingoWindowComponent = new BingoWindowComponent();
 
-  constructor(private route: Router, private bingoUserService: BingoUserService, private bingoCardService: BingoCardService) {
+  constructor(
+    private route: Router,
+    private bingoUserService: BingoUserService,
+    private bingoCardService: BingoCardService,
+    private authService: AuthService
+  ) {
   }
 
   ngOnInit(): void {
     this.bingoUser = {
-      id: localStorage.getItem('userid'),
+      id: localStorage.getItem('userId'),
       username: localStorage.getItem('username'),
       backgroundColor: localStorage.getItem('backgroundColor')
     };
     console.log(`The user ID is ${this.bingoUser.id} from localStorage in bingo-start component on init.`);
-    if (this.bingoUser.id !== '') {
+    if (this.bingoUser.id !== '' && this.bingoUser.id !== null) {
       this.bingoUserService.get(this.bingoUser.id).subscribe(
         value => {
           this.bingoUser = value;
@@ -50,6 +59,11 @@ export class BingoStartComponent implements OnInit, AfterContentInit {
     this.bingoWindow.showWindow('Beste deelnemer, kun je hier je naam invullen?', true, 'ask-username');
   }
 
+  logout(): void {
+    this.authService.logout();
+  }
+
+
   windowClosed(event: string, inputValue: string): void {
     if (inputValue === '') {
       this.participate();
@@ -61,7 +75,7 @@ export class BingoStartComponent implements OnInit, AfterContentInit {
             value => {
               localStorage.clear();
               console.log(`Created new user with username: ${value.bingoUser.username} from bingo-start component.`);
-              localStorage.setItem('userid', value.bingoUser.id);
+              localStorage.setItem('userId', value.bingoUser.id);
               localStorage.setItem('username', value.bingoUser.username);
               localStorage.setItem('backgroundColor', value.bingoUser.backgroundColor);
               this.bingoUser = value.bingoUser;

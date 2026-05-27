@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/api',
-  pollIntervalMs: 5000
+  pollIntervalMs: 5000,
+  enableStubLogin: true  // Show offline test buttons in development
 };
 
 /*
