@@ -178,5 +178,30 @@ because tree-shaking can now precisely eliminate unused Angular features per com
   `environment.prod.ts`, production code will get `undefined` for that field at runtime — no compile
   error, just a silent bug.
 - **`HttpErrorResponse` gives structured error info.** Logging `error.status` and `error.message`
-  from an `HttpErrorResponse` is far more useful in the console than `[object Object]`.
+   from an `HttpErrorResponse` is far more useful in the console than `[object Object]`.
+
+---
+
+## 2026-05-27 — Step 4: JWT Authentication Complete & Git Fix
+
+### Context
+Step 4 (JWT Authentication) was completed — all auth-related files were created and integrated into the app.
+
+### What Happened
+A commit was made automatically during the implementation phase. This created a problem for local synchronization:
+- Changes had been committed to the branch
+- Local uncommitted changes needed to be preserved
+
+### Fix Applied
+Used `git reset --soft HEAD~1` to undo the most recent commit while keeping all the changes staged.
+This allowed proper synchronization of the working directory without losing any implementation work.
+
+### Additional Maintenance
+The `.angular/` directory (Angular build cache) was added to `.gitignore` to prevent build artifacts 
+from being tracked. This folder is generated locally during builds and should never be committed.
+
+### Result
+- ✅ Step 4 (JWT Authentication) is fully complete and all checkboxes are marked done in PLAN.md
+- ✅ Git state is clean and in sync with local changes
+- ✅ `.angular/` is now ignored in version control
 

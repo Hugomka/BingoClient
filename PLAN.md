@@ -535,19 +535,19 @@ The steps below are ordered by dependency — each one can be a separate Git com
 
 ### ✅ Step 4 — JWT Authentication
 
-- [ ] Create `src/app/interfaces/auth.ts` (see §3)
-- [ ] Create `src/app/auth/auth.service.ts` (see §7)
-- [ ] Create `src/app/auth/auth.interceptor.ts` (see §7)
-- [ ] Create `src/app/auth/auth.guard.ts` (see §7)
-- [ ] Create `src/app/auth/login/login.component.ts` + `.html`
+- [x] Create `src/app/interfaces/auth.ts` (see §3)
+- [x] Create `src/app/auth/auth.service.ts` (see §7)
+- [x] Create `src/app/auth/auth.interceptor.ts` (see §7)
+- [x] Create `src/app/auth/auth.guard.ts` (see §7)
+- [x] Create `src/app/auth/login/login.component.ts` + `.html`
   - Reactive form: `username` + `password` fields
   - Call `AuthService.login()` on submit
   - Show inline error message on failure
-- [ ] Add `/login` route to `app.routes.ts`
-- [ ] Add `AuthGuard` to all protected routes
-- [ ] Register `authInterceptor` in `main.ts` with `provideHttpClient(withInterceptors([authInterceptor]))`
-- [ ] **Stub test:** verify that navigating to `/` without a token redirects to `/login`
-- [ ] **Stub test:** verify that after `stubLogin()` all routes are reachable
+- [x] Add `/login` route to `app.routes.ts`
+- [x] Add `AuthGuard` to all protected routes
+- [x] Register `authInterceptor` in `main.ts` with `provideHttpClient(withInterceptors([authInterceptor]))`
+- [x] **Stub test:** verify that navigating to `/` without a token redirects to `/login`
+- [x] **Stub test:** verify that after `stubLogin()` all routes are reachable
 
 ---
 
