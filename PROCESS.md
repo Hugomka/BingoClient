@@ -153,3 +153,30 @@ because tree-shaking can now precisely eliminate unused Angular features per com
 - **The bundle gets smaller right away.** Even before any lazy loading is added, tree-shaking benefits
   are visible because the compiler now knows the exact dependency graph per component.
 
+---
+
+## 2026-05-12 — Step 3: Environment & Base Service
+
+### What Was Done
+
+1. **`environment.ts` was already correct** — `apiUrl` and `pollIntervalMs` had been set in an earlier session.
+
+2. **Updated `environment.prod.ts`** to include both `apiUrl` and `pollIntervalMs` (it previously only had `production: true`).
+   This ensures that a production build uses the same field names and a proper API URL can be swapped in later.
+
+3. **Updated `bingo.service.ts`**:
+   - Replaced the hard-coded `'http://localhost:8080/api'` string with `environment.apiUrl`.
+   - Added `import { HttpErrorResponse } from '@angular/common/http'`.
+   - Improved `handleError` to distinguish `HttpErrorResponse` from other errors and log the HTTP status code and message instead of the raw error object.
+
+4. **Verified** with `ng build` — zero errors.
+
+### Lessons Learned
+
+- **`environment.prod.ts` must mirror every field in `environment.ts`.** Angular's file-replacement
+  mechanism swaps the entire file at build time. If a field exists in `environment.ts` but not in
+  `environment.prod.ts`, production code will get `undefined` for that field at runtime — no compile
+  error, just a silent bug.
+- **`HttpErrorResponse` gives structured error info.** Logging `error.status` and `error.message`
+  from an `HttpErrorResponse` is far more useful in the console than `[object Object]`.
+
